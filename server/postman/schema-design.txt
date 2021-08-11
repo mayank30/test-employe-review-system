@@ -1,0 +1,200 @@
+Organization
+	id
+	companyName
+	licDuration
+	licFree
+	saImage
+	leftImage
+	rightImage
+	h1
+	h2
+	h3
+	meta (o)
+	status
+    byUser (o)
+	createdDate
+	updatedDate
+	
+	Method --
+	addNewOrg
+	  Insert Org + User Account Regesitration
+	
+	API --
+	AddOrganization
+	UpdateOranization
+
+
+location
+  id 
+  Name
+  address
+  startDate
+  endDate
+  status
+  orgId
+  byUser (o)
+  createdDate
+  updatedDate
+  
+  API -- 
+  Add
+  Update 
+  GET All 
+  
+
+Adressee
+	id
+	firstName
+	lastName
+	mobileNumber
+	emailId
+	designation
+	responsibilities
+	department
+	image
+	password (hard code to some hash)
+	status
+    orgId
+	byUser (o)
+	createdDate
+	updatedDate
+	
+	// email send to Address when ever he received receive request 
+	// phone no pe sms send kar denge 
+
+	API -- 
+	Add 
+	update 
+	getAll
+
+
+Delegates
+	id
+	firstName
+	lastName
+	mobileNumber
+	emailId
+	status
+    orgId
+	byUser (o)
+	createdDate
+	updatedDate
+	
+	API -- 
+	Add
+	update
+	getAll
+	
+Account 
+	id
+	firstName
+	lastName
+	mobileNumber
+	password
+	emailId
+	image
+	location (o)
+	role (ADMIN / USER / SA)
+	isOfficeIncharge 
+	status
+    orgId
+    org (o)	
+	byUser (o)
+	createdDate
+	updatedDate
+	
+	API -- 
+	login --> token -Header Mein Attach karna 
+	Add
+	update
+	getAll 
+
+Citizen 
+	id 
+	mobileNumber
+	firstName
+	lastName
+	emailId
+	address
+	pinCode
+	status
+    orgId
+	byUser (o)
+	createdDate
+	updatedDate
+	
+	API -- 
+	Add -(always verify OTP and then add user)
+	GetByMobileNumber (include SendOTP if not Exisit)
+	update - 
+	
+
+Request 
+	id
+	refNumber for eg - C20/DO/08/20/01 (FIRST CHARACTER OF TYPE + YY "/DO"+MM+DD+Count of Type Of Request on that day)
+	dd
+	mm
+	yy
+	request (o) --- TRICKY JSON - {}
+	citizen (o)  {firstName lastName emailId Phone}
+	addressee (o)  {name & department}
+	typeOfRequest (COMPLAINT / JOBS / EVENTS / APPOINTMENTS)
+	status
+    orgId
+    org (o)	
+	byUser (o)
+	createdDate
+	updatedDate
+	
+	Methods -- 
+	generateReferenceNumber 
+	
+	API -- 
+	Add
+	Update  (it will always update ByUser)
+	getRequestByID - complete Object 
+	searchRequest dynamic query (pagination with limited data based on screen)
+	
+	All Get will be Page Offset []--> page offset 
+	
+	
+	=========
+	
+	{
+		dd 
+		mm
+		yyy
+		s 
+		typeOfRequest comap
+		status Pending
+		page 
+		size 
+	}
+	
+	================
+	
+	getCountOfRequestByTypes -- {all: 97237324, c: 330}
+	
+	api.eshayogi.com/v1/imageSingle
+	images/671267126712.pdf
+	
+	imageSingle - --> [FILES] --> string 
+	imageMulti -  --> [FILES] --> ["","",""]
+
+===========================================================
+GetByMobile
+{
+	mobileNumber : +91098327234
+}
+
+Response 1 (User Doesn't exisit )
+{
+	// Send sms 
+	NULL 
+	otp hash response --> (123456)
+}
+// otp 
+
+Response 2 (User Exisit)
+	
+	

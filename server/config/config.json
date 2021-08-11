@@ -1,0 +1,21 @@
+{
+    "development": {
+        "username": "jhawar",
+        "password": "demo",
+        "database": "paypay",
+        "dialect": "postgres"
+    },
+    "test": {
+        "username": "jhawar",
+        "password": "demo",
+        "database": "paypay",
+        "dialect": "postgres"
+    },
+    "production": {
+        "username": "jhawar",
+        "password": "demo",
+        "database": "paypay",
+        "host": ".",
+        "dialect": "postgres"
+    }
+}
