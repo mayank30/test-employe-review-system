@@ -1,23 +1,55 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Home from "../views/Home.vue";
-
 Vue.use(VueRouter);
-
 const routes = [
   {
     path: "/",
-    name: "Home",
-    component: Home,
+    name: "login",
+    component: () => import("../views/LogIn.vue"),
   },
   {
-    path: "/about",
-    name: "About",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/About.vue"),
+    path: "/admin",
+    name: "admin",
+    component: () => import("../views/Admin.vue"),
+    children: [
+      {
+        path: "add-employees",
+        name: "add-employees",
+        component: () => import("../views/Admin/AddEmployees.vue"),
+      },
+      {
+        path: "employees-list",
+        name: "employees-list",
+        component: () => import("../views/Admin/EmployeesList.vue"),
+      },
+      {
+        path: "add-review",
+        name: "add-review",
+        component: () => import("../views/Admin/AddReview.vue"),
+      },
+      {
+        path: "review-list",
+        name: "review-list",
+        component: () => import("../views/Admin/ReviewList.vue"),
+      },
+    ],
+  },
+  {
+    path: "/employee",
+    name: "employee",
+    component: () => import("../views/Employee.vue"),
+    children: [
+      {
+        path: "submit-feedBack",
+        name: "submit-feedBack",
+        component: () => import("../views/Employee/SubmitFeedBack.vue"),
+      },
+      {
+        path: "feedback-list",
+        name: "feedback-list",
+        component: () => import("../views/Employee/FeedBackList.vue"),
+      },
+    ],
   },
 ];
 
