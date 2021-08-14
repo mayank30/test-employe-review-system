@@ -8,18 +8,23 @@ const routes = [
     component: () => import("../views/LogIn.vue"),
   },
   {
+    path: "/logout",
+    name: "logout",
+    component: () => import("../views/LogOut.vue"),
+  },
+  {
     path: "/admin",
     name: "admin",
-    component: () => import("../views/Admin.vue"),
+    component: () => import("../views/HomeLayout.vue"),
     children: [
       {
-        path: "add-employees",
-        name: "add-employees",
+        path: "add-employee",
+        name: "add-employee",
         component: () => import("../views/Admin/AddEmployees.vue"),
       },
       {
-        path: "employees-list",
-        name: "employees-list",
+        path: "employees",
+        name: "employees",
         component: () => import("../views/Admin/EmployeesList.vue"),
       },
       {
@@ -28,8 +33,8 @@ const routes = [
         component: () => import("../views/Admin/AddReview.vue"),
       },
       {
-        path: "review-list",
-        name: "review-list",
+        path: "review",
+        name: "review",
         component: () => import("../views/Admin/ReviewList.vue"),
       },
     ],
@@ -37,7 +42,7 @@ const routes = [
   {
     path: "/employee",
     name: "employee",
-    component: () => import("../views/Employee.vue"),
+    component: () => import("../views/HomeLayout.vue"),
     children: [
       {
         path: "submit-feedBack",
@@ -45,8 +50,8 @@ const routes = [
         component: () => import("../views/Employee/SubmitFeedBack.vue"),
       },
       {
-        path: "feedback-list",
-        name: "feedback-list",
+        path: "feedback",
+        name: "feedback",
         component: () => import("../views/Employee/FeedBackList.vue"),
       },
     ],

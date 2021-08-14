@@ -15,8 +15,8 @@
                     name="login"
                     prepend-icon="mdi-account"
                     type="text"
-                    v-model="user.username"
-                    :rules="[(v) => !!v || 'User name is required']"
+                    v-model="employee.email"
+                    :rules="[(v) => !!v || 'Email is required']"
                   ></v-text-field>
 
                   <v-text-field
@@ -25,7 +25,7 @@
                     name="password"
                     prepend-icon="mdi-lock"
                     type="password"
-                    v-model="user.password"
+                    v-model="employee.password"
                     :rules="[(v) => !!v || 'Password is required']"
                   ></v-text-field>
                 </v-form>
@@ -49,26 +49,42 @@
 </template>
 
 <script>
-import axios from "@/service/axios.js";
 export default {
   data() {
     return {
-      user: {},
+      employee: {
+        email: "",
+        password: "",
+      },
       valid: true,
     };
   },
+  created() {},
   methods: {
     async login() {
       if (this.$refs.login.validate()) {
-        await axios
-          .login(this.user)
-          .then((e) => {
-            localStorage.setItem("_gxcd", e.data.access);
-            localStorage.setItem("logged", true);
-            this.$router.push("/dashboard/overview");
+        this.$api
+          .post(this.$endpoint.LOGIN, this.employee)
+          .then((r) => {
+            if (r.data.status) {
+              this.$emitter.publish("TOAST", {
+                msg: `Welcome ${r.data.data.firstName} ${r.data.data.lastName}`,
+              });
+              localStorage.setItem("token", r.data.data.token);
+              if (r.data.data.role == "ADMIN") {
+                this.$router.push("/admin/employees");
+              } else {
+                this.$router.push("/employee/feedback");
+              }
+            } else {
+              this.$emitter.publish("TOAST", {
+                msg: r.data.error,
+                error: true,
+              });
+            }
           })
-          .catch((error) => {
-            console.log(error);
+          .catch((e) => {
+            this.$emitter.publish("TOAST", { msg: e });
           });
       }
     },
