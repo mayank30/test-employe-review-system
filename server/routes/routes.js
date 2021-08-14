@@ -2,9 +2,9 @@ const express = require("express");
 const router = express.Router();
 
 const employee = require("./employee.routes");
-// const addressee = require("./addressee.routes");
+const review = require("./review.routes");
 
 router.use("/employee", employee);
-// router.use("/addressee", addressee);
+router.use("/review", review);
 
 module.exports = router;

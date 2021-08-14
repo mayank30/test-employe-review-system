@@ -1,22 +1,14 @@
-const { employee } = require("../../db/db");
+const { review } = require("../../db/db");
 const constants = require("../../config/constants");
 const joi = require("@hapi/joi");
 const { master } = require("../../config/enum");
 
-module.exports = async function Register(req, res) {
+module.exports = async function Process(req, res) {
   if (await constants.validateRequest(req, querySchema, res)) {
-    await employee.REGISTER(req.body, async (e) => {
+    await review.PROCESS_REVIEW(req.body, async (e) => {
       let response = { status: false },
         status = 200;
       switch (e) {
-        case master.ALREADY_EXIST: {
-          response = {
-            error: "Employee already exisit",
-            code: "ERROR",
-            status: false,
-          };
-          break;
-        }
         case master.DATABASE_FAILURE: {
           response = {
             error: "Something went wrong",
@@ -43,15 +35,8 @@ module.exports = async function Register(req, res) {
 
 //#region JOI Validation
 const querySchema = joi.object({
-  firstName: joi.string().optional(),
-  lastName: joi.string().optional(),
-  email: joi.string().required(),
-  password: joi.string().required(),
-  profile: joi.string().optional(),
-  location: joi.string().optional(),
-  designation: joi.string().optional(),
-  role: joi.string().valid(constants.EMPLOYEE, constants.ADMIN),
-  meta: joi.object().optional(),
+  id: joi.string().required(),
+  status: joi.string().required().valid(constants.APPROVE, constants.REJECTED),
   byEmployee: joi.object().optional(),
 });
 //#endregion

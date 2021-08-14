@@ -1,17 +1,25 @@
-const { employee } = require("../../db/db");
+const { review } = require("../../db/db");
 const constants = require("../../config/constants");
 const joi = require("@hapi/joi");
 const { master } = require("../../config/enum");
 
-module.exports = async function Register(req, res) {
+module.exports = async function Submit(req, res) {
   if (await constants.validateRequest(req, querySchema, res)) {
-    await employee.REGISTER(req.body, async (e) => {
+    await review.SUBMIT_REVIEW(req.body, async (e) => {
       let response = { status: false },
         status = 200;
       switch (e) {
-        case master.ALREADY_EXIST: {
+        case master.UNAUTHORIZE: {
           response = {
-            error: "Employee already exisit",
+            error: "Request not allocated to you",
+            code: "ERROR",
+            status: false,
+          };
+          break;
+        }
+        case master.NOT_ALLOWED: {
+          response = {
+            error: "Only one time submission is allowed",
             code: "ERROR",
             status: false,
           };
@@ -43,15 +51,9 @@ module.exports = async function Register(req, res) {
 
 //#region JOI Validation
 const querySchema = joi.object({
-  firstName: joi.string().optional(),
-  lastName: joi.string().optional(),
-  email: joi.string().required(),
-  password: joi.string().required(),
-  profile: joi.string().optional(),
-  location: joi.string().optional(),
-  designation: joi.string().optional(),
-  role: joi.string().valid(constants.EMPLOYEE, constants.ADMIN),
-  meta: joi.object().optional(),
+  id: joi.string().required(),
+  comment: joi.string().required(),
+  rating: joi.string().required(),
   byEmployee: joi.object().optional(),
 });
 //#endregion

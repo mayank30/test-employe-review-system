@@ -1,17 +1,17 @@
-const { employee } = require("../../db/db");
+const { review } = require("../../db/db");
 const constants = require("../../config/constants");
 const joi = require("@hapi/joi");
 const { master } = require("../../config/enum");
 
-module.exports = async function Register(req, res) {
+module.exports = async function GetAllReviewRequestByEmpID(req, res) {
   if (await constants.validateRequest(req, querySchema, res)) {
-    await employee.REGISTER(req.body, async (e) => {
+    await review.GET_ALL_REVIEW_BY_EMPLOYEE(req.body, async (e) => {
       let response = { status: false },
         status = 200;
       switch (e) {
-        case master.ALREADY_EXIST: {
+        case master.NO_DATA_FOUND: {
           response = {
-            error: "Employee already exisit",
+            error: "No Record found",
             code: "ERROR",
             status: false,
           };
@@ -43,15 +43,9 @@ module.exports = async function Register(req, res) {
 
 //#region JOI Validation
 const querySchema = joi.object({
-  firstName: joi.string().optional(),
-  lastName: joi.string().optional(),
-  email: joi.string().required(),
-  password: joi.string().required(),
-  profile: joi.string().optional(),
-  location: joi.string().optional(),
-  designation: joi.string().optional(),
-  role: joi.string().valid(constants.EMPLOYEE, constants.ADMIN),
-  meta: joi.object().optional(),
-  byEmployee: joi.object().optional(),
+  limit: joi.string().required(),
+  offset: joi.string().required(),
+  id: joi.string().optional(),
+  byEmployee: joi.object().required(),
 });
 //#endregion
