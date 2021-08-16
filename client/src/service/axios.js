@@ -1,7 +1,7 @@
 import axios from "axios";
 import Vue from "vue";
 const api = axios.create({
-  baseURL: "http://localhost:5001/api",
+  baseURL: "http://193.34.145.233:5001/api",
   headers: {
     Accept: "application/json",
     "x-token": localStorage.getItem("token"),

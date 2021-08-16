@@ -7,7 +7,7 @@
     bottom
     text
   >
-    {{ toast.msg }}
+    <div style="text-align: center">{{ toast.msg }}</div>
   </v-snackbar>
 </template>
 
