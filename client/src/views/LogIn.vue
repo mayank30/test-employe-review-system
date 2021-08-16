@@ -72,9 +72,9 @@ export default {
               });
               localStorage.setItem("token", r.data.data.token);
               if (r.data.data.role == "ADMIN") {
-                this.$router.push("/admin/employees");
+                location.href = "/admin/employees";
               } else {
-                this.$router.push("/employee/feedback");
+                location.href = "/employee/feedback";
               }
             } else {
               this.$emitter.publish("TOAST", {
