@@ -2,11 +2,18 @@ import axios from "axios";
 import Vue from "vue";
 const api = axios.create({
   baseURL: "http://localhost:5001/api",
-  headers: {
-    Accept: "application/json",
-    "x-token": localStorage.getItem("token"),
-  },
+  headers: getHeaders(),
 });
+
+function getHeaders() {
+  const headers = {
+    Accept: "application/json",
+  };
+  if (localStorage.getItem("token") != null) {
+    headers["x-token"] = localStorage.getItem("token");
+  }
+  return headers;
+}
 
 Vue.prototype.$api = api;
 

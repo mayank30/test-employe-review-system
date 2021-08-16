@@ -28,7 +28,7 @@
       :search="search"
     >
       <template v-slot:[`item.actions`]="{ item }">
-        <v-menu top :close-on-click="closeOnClick">
+        <v-menu top :close-on-click="true">
           <template v-slot:activator="{ on, attrs }">
             <v-btn text color="primary" dark v-bind="attrs" v-on="on">
               <v-icon small> mdi-dots-vertical </v-icon>
