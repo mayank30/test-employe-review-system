@@ -36,7 +36,14 @@
           </template>
           <v-list>
             <v-list-item>
-              <v-btn text color="primary" dark> Assign Peers for Review </v-btn>
+              <v-btn
+                text
+                color="primary"
+                @click="reviewAssignModalOpen(item)"
+                dark
+              >
+                Assign Peers for Review
+              </v-btn>
             </v-list-item>
             <v-list-item @click="UpdateItem(item)">
               <v-btn text color="primary" dark>
@@ -156,6 +163,50 @@
         </v-card-actions>
       </v-container>
     </v-dialog>
+
+    <v-dialog
+      persistent
+      v-model="reviewAssignModal"
+      transition="dialog-top-transition"
+      width="500"
+    >
+      <v-container class="grey lighten-5">
+        <h2>Review Request</h2>
+        <v-form ref="reviewform" v-model="validReview" lazy-validation>
+          <v-row no-gutters>
+            <!-- <v-col cols="6">
+              <v-autocomplete
+                v-model="reviewBy"
+                :items="items"
+                outlined
+                dense
+                chips
+                label="Review By"
+                :item-text="'firstName'"
+                :item-value="'id'"
+              ></v-autocomplete>
+            </v-col> -->
+            <v-col cols="12">
+              <v-autocomplete
+                v-model="reviewfor"
+                :items="items"
+                outlined
+                dense
+                chips
+                label="Review For"
+                :item-text="'firstName'"
+                return-object
+              ></v-autocomplete>
+            </v-col>
+          </v-row>
+        </v-form>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn @click="fromReset2"> Cancle </v-btn>
+          <v-btn color="primary" @click="assign"> Assign </v-btn>
+        </v-card-actions>
+      </v-container>
+    </v-dialog>
   </v-card>
 </template>
 
@@ -168,6 +219,10 @@ export default {
       valid: true,
       deleteWarningPopup: false,
       saveEmployeePopup: false,
+      validReview: true,
+      reviewAssignModal: false,
+      reviewBy: null,
+      reviewfor: null,
       search: "",
       count: 0,
       employee: {
@@ -277,6 +332,41 @@ export default {
     fromReset() {
       this.$refs.form.reset();
       this.saveEmployeePopup = false;
+      this.mode = "new";
+    },
+    assign() {
+      let review = {
+        reviewById: this.reviewBy,
+        reviewFor: {
+          id: this.reviewfor.id,
+          firstName: this.reviewfor.firstName,
+          lastName: this.reviewfor.lastName,
+          email: this.reviewfor.email,
+          profile: null,
+          location:
+            this.reviewfor.location == null ? " " : this.reviewfor.location,
+          designation:
+            this.reviewfor.designation == null
+              ? " "
+              : this.reviewfor.designation,
+          role: this.reviewfor.role,
+        },
+      };
+      this.$api.post(this.$endpoint.REQUEST_REVIEW, review).then((r) => {
+        if (r.data.status) {
+          this.fromReset2();
+        } else {
+          this.$emitter.publish("TOAST", { msg: r.data.error });
+        }
+      });
+    },
+    fromReset2() {
+      this.$refs.reviewform.reset();
+      this.reviewAssignModal = false;
+    },
+    reviewAssignModalOpen(item) {
+      this.reviewBy = item.id;
+      this.reviewAssignModal = true;
     },
   },
 };
