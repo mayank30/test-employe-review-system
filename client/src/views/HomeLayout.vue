@@ -45,6 +45,7 @@ export default {
   created() {
     try {
       const tokenData = jwt_decode(localStorage.getItem("token"));
+      console.log(tokenData);
       if (tokenData.role == "ADMIN") {
         this.items = [
           {
@@ -68,7 +69,7 @@ export default {
           {
             icon: "mdi-account-group",
             text: "Feedback",
-            to: "/employee/feedback",
+            to: "/employee/feedback/" + tokenData.id,
           },
           {
             icon: "mdi-logout-variant",

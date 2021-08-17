@@ -74,7 +74,7 @@ export default {
               if (r.data.data.role == "ADMIN") {
                 location.href = "/admin/employees";
               } else {
-                location.href = "/employee/feedback";
+                location.href = "/employee/feedback/" + r.data.data.id;
               }
             } else {
               this.$emitter.publish("TOAST", {

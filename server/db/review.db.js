@@ -129,12 +129,15 @@ async function GetAllReviewRequestByEmpID(data, next) {
   if (data.id !== undefined) {
     data.byEmployee.id = data.id;
   }
+  console.log(data, "_____132");
   await review
     .findAndCountAll({
       raw: true,
-      reviewById: data.byEmployee.id,
       limit: data.limit,
       offset: data.offset,
+      where: {
+        reviewById: data.byEmployee.id,
+      },
     })
     .then(async (acc) => {
       if (acc.rows.length == 0) {

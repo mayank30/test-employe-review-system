@@ -50,7 +50,7 @@ const routes = [
         component: () => import("../views/Employee/SubmitFeedBack.vue"),
       },
       {
-        path: "feedback",
+        path: "feedback/:id",
         name: "feedback",
         component: () => import("../views/Employee/FeedBackList.vue"),
       },

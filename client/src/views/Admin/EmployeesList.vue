@@ -189,7 +189,7 @@
             <v-col cols="12">
               <v-autocomplete
                 v-model="reviewfor"
-                :items="items"
+                :items="reviewsForList"
                 outlined
                 dense
                 chips
@@ -247,6 +247,7 @@ export default {
       ],
       items: [],
       itemToDelete: {},
+      reviewsForList: [],
     };
   },
   created() {
@@ -337,20 +338,7 @@ export default {
     assign() {
       let review = {
         reviewById: this.reviewBy,
-        reviewFor: {
-          id: this.reviewfor.id,
-          firstName: this.reviewfor.firstName,
-          lastName: this.reviewfor.lastName,
-          email: this.reviewfor.email,
-          profile: null,
-          location:
-            this.reviewfor.location == null ? " " : this.reviewfor.location,
-          designation:
-            this.reviewfor.designation == null
-              ? " "
-              : this.reviewfor.designation,
-          role: this.reviewfor.role,
-        },
+        reviewFor: this.reviewfor,
       };
       this.$api.post(this.$endpoint.REQUEST_REVIEW, review).then((r) => {
         if (r.data.status) {
@@ -366,6 +354,7 @@ export default {
     },
     reviewAssignModalOpen(item) {
       this.reviewBy = item.id;
+      this.reviewsForList = this.items.filter((x) => x.id !== item.id);
       this.reviewAssignModal = true;
     },
   },
