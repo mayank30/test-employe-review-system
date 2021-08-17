@@ -54,11 +54,6 @@ export default {
             to: "/admin/employees",
           },
           {
-            icon: "mdi-card-account-details-star",
-            to: "/admin/review",
-            text: "Reviews",
-          },
-          {
             icon: "mdi-logout-variant",
             to: "/logout",
             text: "Logout",

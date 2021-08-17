@@ -45,6 +45,20 @@
                 Assign Peers for Review
               </v-btn>
             </v-list-item>
+            <v-list-item>
+              <v-btn
+                text
+                color="primary"
+                @click="
+                  $router.push(
+                    '/admin/reviews/' + item.id + '/' + item.firstName
+                  )
+                "
+                dark
+              >
+                View Reviw and Ratings
+              </v-btn>
+            </v-list-item>
             <v-list-item @click="UpdateItem(item)">
               <v-btn text color="primary" dark>
                 Edit {{ item.firstName }} Data

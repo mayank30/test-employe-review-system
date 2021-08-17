@@ -20,10 +20,6 @@
           >
             Submit Review
           </v-btn>
-
-          <div v-else>
-            <b>Already Submitted - </b> {{ item.rating }} & {{ item.comment }}
-          </div>
         </template>
       </v-data-table>
 
@@ -86,6 +82,18 @@ export default {
         {
           text: "Email",
           value: "reviewFor.email",
+        },
+        {
+          text: "Comment",
+          value: "comment",
+        },
+        {
+          text: "Rating",
+          value: "rating",
+        },
+        {
+          text: "Status",
+          value: "status",
         },
         { text: "", value: "actions" },
       ],
